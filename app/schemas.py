@@ -1,17 +1,21 @@
 from pydantic import BaseModel, EmailStr
 from datetime import datetime
 from typing import Optional
+from app.models import UserRole, TransactionStatus
 
-# User schemas
+
+# ========== USER SCHEMAS ==========
 class UserCreate(BaseModel):
     email: EmailStr
     username: str
     password: str
     full_name: str
 
+
 class UserLogin(BaseModel):
     username: str
     password: str
+
 
 class Token(BaseModel):
     access_token: str
@@ -23,13 +27,14 @@ class UserResponse(BaseModel):
     email: str
     username: str
     full_name: str
-    role: str
+    role: UserRole          # ✅ enum, not str
     is_active: bool
-    
+
     class Config:
         from_attributes = True
 
-# Book schemas
+
+# ========== BOOK SCHEMAS ==========
 class BookCreate(BaseModel):
     title: str
     author: str
@@ -37,11 +42,13 @@ class BookCreate(BaseModel):
     total_copies: int
     description: Optional[str] = None
 
+
 class BookUpdate(BaseModel):
     title: Optional[str] = None
     author: Optional[str] = None
     total_copies: Optional[int] = None
     description: Optional[str] = None
+
 
 class BookResponse(BaseModel):
     id: int
@@ -51,20 +58,23 @@ class BookResponse(BaseModel):
     total_copies: int
     available_copies: int
     description: Optional[str]
-    
+
     class Config:
         from_attributes = True
 
-# Transaction schemas
+
+# ========== TRANSACTION SCHEMAS ==========
 class BorrowBook(BaseModel):
     book_id: int
 
+
 class TransactionResponse(BaseModel):
     id: int
+    user_id: int            # ✅ strongly recommended
     book_id: int
     borrow_date: datetime
     return_date: Optional[datetime]
-    status: str
-    
+    status: TransactionStatus   # ✅ enum, not str
+
     class Config:
         from_attributes = True
