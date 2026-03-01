@@ -8,6 +8,7 @@ client = TestClient(app)
 def unique(value: str) -> str:
     return f"{value}-{uuid.uuid4()}"
 
+
 def test_borrow_book(client):
     user = client.post("/api/register", json={
         "email": f"{uuid.uuid4()}@test.com",
@@ -23,12 +24,13 @@ def test_borrow_book(client):
         "total_copies": 2
     }).json()
 
-    response = client.post(f"/api/borrow/{user['id']}", json={
+    response = client.post("/api/borrow", json={
         "book_id": book["id"]
     })
 
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert response.json()["status"] == "borrowed"
+
 
 def test_return_book(client):
     user = client.post("/api/register", json={
@@ -45,7 +47,7 @@ def test_return_book(client):
         "total_copies": 1
     }).json()
 
-    borrow = client.post(f"/api/borrow/{user['id']}", json={
+    borrow = client.post("/api/borrow", json={
         "book_id": book["id"]
     }).json()
 
@@ -53,6 +55,8 @@ def test_return_book(client):
 
     assert response.status_code == 200
     assert response.json()["status"] == "returned"
+
+
 def test_get_transactions(client):
     response = client.get("/api/transactions")
     assert response.status_code == 200

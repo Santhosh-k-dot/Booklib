@@ -9,7 +9,7 @@ def test_create_book(client):
         "total_copies": 5
     })
 
-    assert response.status_code == 200
+    assert response.status_code == 201
     assert response.json()["available_copies"] == 5
 
 def test_get_books(client):
@@ -41,7 +41,7 @@ def test_delete_book(client):
         "total_copies": 1
     })
 
-    assert create.status_code == 200   # 🔥
+    assert create.status_code == 201   # 🔥test_borrow_book
 
     book_id = create.json()["id"]
 

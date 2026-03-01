@@ -17,9 +17,16 @@ class UserLogin(BaseModel):
     password: str
 
 
+# ✅ UPDATED: now includes refresh_token
 class Token(BaseModel):
     access_token: str
+    refresh_token: str          # ✅ NEW
     token_type: str = "bearer"
+
+
+# ✅ NEW: used by POST /refresh
+class RefreshRequest(BaseModel):
+    refresh_token: str
 
 
 class UserResponse(BaseModel):

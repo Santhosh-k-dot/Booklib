@@ -3,38 +3,36 @@ from app.database import engine, Base
 from app.routes_no_auth import router
 from app.cache import init_cache
 
-# 🔽 ADD THESE IMPORTS
+# Rate limiter imports
 from app.rate_limiter import limiter
 from slowapi.middleware import SlowAPIMiddleware
 from slowapi.errors import RateLimitExceeded
 from slowapi import _rate_limit_exceeded_handler
 
+from fastapi.middleware.cors import CORSMiddleware
+
 # Create database tables
 Base.metadata.create_all(bind=engine)
-
-#add_middleware
-
-from fastapi.middleware.cors import CORSMiddleware
 
 app = FastAPI(
     title="Library Management System",
 )
 
-# 🔹 INIT REDIS CACHE
+# Initialize cache on startup
 @app.on_event("startup")
-def startup():
-    init_cache()
+async def startup():
+    await init_cache()
 
-
+# CORS middleware
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173"], # Vite's default port
+    allow_origins=["http://localhost:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
-# 🔹 REGISTER RATE LIMITER (CRITICAL)
+# 🔹 CRITICAL: Register rate limiter
 app.state.limiter = limiter
 app.add_exception_handler(RateLimitExceeded, _rate_limit_exceeded_handler)
 app.add_middleware(SlowAPIMiddleware)

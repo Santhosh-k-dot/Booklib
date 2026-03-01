@@ -10,7 +10,7 @@ def test_register_user(client):
         "full_name": "Test User"
     })
 
-    assert response.status_code == 200
+    assert response.status_code == 201
 
 def test_login_user(client):
     response = client.post("/api/login", json={

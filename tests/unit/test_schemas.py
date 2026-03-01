@@ -51,7 +51,7 @@ def test_user_login_missing_password():
 
 
 def test_token_default_type():
-    token = Token(access_token="abc123")
+    token = Token(access_token="abc123", refresh_token="xyz789")
     assert token.token_type == "bearer"
 
 

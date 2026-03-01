@@ -1,0 +1,33 @@
+@router.post("/register", response_model=UserResponse)
+# ↑ What this does:
+# - Creates POST endpoint at: http://localhost:8000/register
+# - response_model=UserResponse: Validates & formats the response
+#   (ensures only safe fields like id, email, username are returned,
+#    NOT the hashed password)
+
+# @limiter.limit("5/hour")  # COMMENTED OUT (but would limit to 5 registrations per hour)
+def register(
+    # ↑ Function name
+    
+    request: Request,
+    # ↑ FastAPI Request object
+    # Contains: headers, client IP, cookies, etc.
+    # Used by rate limiter (if enabled) to track who's making requests
+    
+    user: UserCreate,
+    # ↑ Request body data, validated against UserCreate schema
+    # Example data coming from client:
+    # {
+    #   "email": "john@email.com",
+    #   "username": "john",
+    #   "password": "secret123",
+    #   "full_name": "John Doe"
+    # }
+    
+    db: Session = Depends(get_db)
+    # ↑ Database session injected by FastAPI
+    # Depends(get_db) calls the get_db() function which:
+    # 1. Creates a database connection
+    # 2. Returns a Session object
+    # 3. Automatically closes connection after request finishes
+):
