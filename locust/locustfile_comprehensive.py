@@ -65,7 +65,7 @@ class LibraryUser(HttpUser):
     def view_book_details(self):
         """View details of a specific book"""
         # Random book ID between 1-300
-        book_id = random.randint(210, 244)
+        book_id = random.randint(400, 999)
         self.client.get(f"/api/books/{book_id}", name="GET /api/books/{id}")
     
     @task(3)
@@ -82,7 +82,7 @@ class LibraryUser(HttpUser):
     def borrow_book(self):
         """Attempt to borrow a book"""
         if self.token:
-            book_id = random.randint(210, 244)
+            book_id = random.randint(400, 999)
             with self.client.post(
                 "/api/borrow",
                 headers=self.headers,
@@ -198,7 +198,7 @@ class AdminUser(HttpUser):
     def update_book(self):
         """Admin updates a book"""
         if self.token:
-            book_id = random.randint(210, 244)
+            book_id = random.randint(400, 999)
             update_data = {
                 "description": f"Updated at {datetime.now().isoformat()}"
             }
@@ -224,7 +224,7 @@ class ReadOnlyUser(HttpUser):
     @task(5)
     def view_book_details(self):
         """View book details"""
-        book_id = random.randint(210, 244)
+        book_id = random.randint(400, 999)
         self.client.get(f"/api/books/{book_id}", name="GET /api/books/{id} (public)")
     
     @task(1)

@@ -149,7 +149,7 @@ Before running tests:
 - [ ] Database has test data (users and books)
 - [ ] Test users exist:
   ```python
-  username: "user123123", password: "admin"
+  username: "admin", password: "admin"
   username: "testuser1", password: "password123"
   # etc.
   ```

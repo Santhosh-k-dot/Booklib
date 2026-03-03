@@ -40,8 +40,8 @@ class SpikeUser(HttpUser):
             response = self.client.post(
                 "/api/login",
                 data={
-                    "username": f"user{random.randint(1, 100)}",
-                    "password": "password123"
+                    "username": "user123123",
+                    "password": "admin"
                 },
                 catch_response=True
             )
