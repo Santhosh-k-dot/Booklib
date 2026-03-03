@@ -4,7 +4,7 @@ from sqlalchemy.orm import sessionmaker
 import os
 
 # Database URL from .env file
-DATABASE_URL = "postgresql://postgres:root@localhost/library_db"
+DATABASE_URL = "postgresql://postgres:rootroot@database-1.cojye8gk8l52.us-east-1.rds.amazonaws.com/book"
 
 # Create engine
 engine = create_engine(
