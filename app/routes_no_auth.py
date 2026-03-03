@@ -339,3 +339,7 @@ def get_users(
     admin: User = Depends(get_current_admin)
 ):
     return db.query(User).all()
+
+@router.get('/adding')
+def adding(a,b):
+    return a+b
